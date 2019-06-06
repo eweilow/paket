@@ -102,6 +102,8 @@ async function updateMatchingPackages(
 }
 
 async function main(mode: Mode, op: OperationMode, ...globs: string[]) {
+  const cwd = process.cwd();
+  console.log("Using root folder: %s", cwd);
   let updatePrefix: string;
   switch (op) {
     case "check":
@@ -137,7 +139,6 @@ async function main(mode: Mode, op: OperationMode, ...globs: string[]) {
     default:
       throw new Error("Unknown mode: " + mode);
   }
-  const cwd = process.cwd();
   const files = glob
     .sync("**/package.json", {
       ignore: [
