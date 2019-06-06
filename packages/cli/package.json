@@ -1,0 +1,44 @@
+{
+  "name": "@eweilow/paket-cli",
+  "version": "0.0.0",
+  "description": "A simple CLI for updating JS packages throughout an entire workspace",
+  "main": "./",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "paket": "./cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eweilow/paket.git"
+  },
+  "author": "eweilow",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eweilow/paket/issues"
+  },
+  "homepage": "https://github.com/eweilow/paket",
+  "dependencies": {
+    "chalk": "2.4.2",
+    "detect-newline": "3.0.0",
+    "glob": "7.1.4",
+    "minimatch": "3.0.4",
+    "node-fetch": "2.6.0",
+    "source-map-support": "0.5.12"
+  },
+  "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/detect-newline": "^3.0.2",
+    "@types/glob": "7.1.1",
+    "@types/minimatch": "^3.0.3",
+    "@types/node": "11.9.5",
+    "@types/node-fetch": "2.3.3"
+  },
+  "gitHead": "b7dc79987a794604c8538d3b9e9f2d17f8ab66da",
+  "keywords": [
+    "paket"
+  ],
+  "types": "./"
+}

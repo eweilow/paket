@@ -1,0 +1,15 @@
+*.ts
+*.tsx
+*.snap
+*.tgz
+__tests__
+node_modules
+!*.d.ts
+!*.d.tsx
+tsconfig.json
+tsconfig.*.json
+.cache-loader
+*.tsbuildinfo
+!tsconfig.process.json
+
+!cli.js

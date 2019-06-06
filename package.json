@@ -1,0 +1,33 @@
+{
+  "name": "@eweilow/paket-workspace",
+  "private": true,
+  "version": "0.0.0",
+  "description": "A simple CLI for updating JS packages throughout an entire workspace",
+  "scripts": {
+    "build-ts": "tsc --build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eweilow/paket.git"
+  },
+  "author": "eweilow",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eweilow/paket/issues"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/@types/**"
+    ]
+  },
+  "homepage": "https://github.com/eweilow/paket#readme",
+  "devDependencies": {
+    "lerna": "3.10.7",
+    "prettier": "1.16.4",
+    "tslint": "^5.12.1",
+    "typescript": "3.4.1"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "exclude": ["**"],
+  "references": [
+    {
+      "path": "packages/cli/tsconfig.json"
+    }
+  ]
+}
