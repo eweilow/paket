@@ -137,7 +137,7 @@ async function main(mode: Mode, op: OperationMode, ...globs: string[]) {
     default:
       throw new Error("Unknown mode: " + mode);
   }
-  const cwd = path.join(__dirname, "../");
+  const cwd = process.cwd();
   const files = glob
     .sync("**/package.json", {
       ignore: [
