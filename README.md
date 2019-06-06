@@ -1,4 +1,4 @@
-[![npm (scoped)](https://img.shields.io/npm/v/@eweilow/paket.svg)](https://www.npmjs.com/package/@eweilow/paket)
+[![npm (scoped)](https://img.shields.io/npm/v/@eweilow/paket-cli.svg)](https://www.npmjs.com/package/@eweilow/paket-cli)
 
 # paket
 
