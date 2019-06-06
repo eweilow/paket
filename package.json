@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "description": "A simple CLI for updating JS packages throughout an entire workspace",
   "scripts": {
-    "build-ts": "tsc --build"
+    "build-ts": "tsc --build",
+    "publish-prerelease": "lerna publish prerelease --dist-tag latest"
   },
   "repository": {
     "type": "git",
