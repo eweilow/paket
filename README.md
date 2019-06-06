@@ -1,3 +1,5 @@
+[![npm (scoped)](https://img.shields.io/npm/v/@eweilow/paket.svg)](https://www.npmjs.com/package/@eweilow/paket)
+
 # paket
 
 A simple CLI for updating JS packages throughout an entire workspace
