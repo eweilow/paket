@@ -160,15 +160,31 @@ async function main(mode: Mode, op: OperationMode, ...globs: string[]) {
   for (const file of files) {
     // tslint:disable-next-line:no-var-requires
     const pkg = require(file);
+
+    if (pkg.resolveModules) {
+      for (const name of pkg.resolveModules) {
+        fetchNames.add(name);
+      }
+    }
+
     packages.set(file, pkg);
     readMatchingPackages(mappedGlobs, pkg.dependencies, fetchNames);
     readMatchingPackages(mappedGlobs, pkg.devDependencies, fetchNames);
     readMatchingPackages(mappedGlobs, pkg.peerDependencies, fetchNames);
+    readMatchingPackages(mappedGlobs, pkg.optionalDependencies, fetchNames);
   }
   await Promise.all([...fetchNames].map(name => getLatest(name)));
 
   let someChanged = false;
   for (const [file, pkg] of packages) {
+    const resolutions = {};
+    if (pkg.resolveModules) {
+      for (const name of pkg.resolveModules) {
+        resolutions[name] =
+          pkg.resolutions != null ? pkg.resolutions["**/" + name] : "unset";
+      }
+    }
+
     const changed: string[] = [];
     changed.push(
       ...(await updateMatchingPackages(
@@ -176,7 +192,7 @@ async function main(mode: Mode, op: OperationMode, ...globs: string[]) {
         mode,
         mappedGlobs,
         pkg.dependencies,
-        "",
+        "^",
         "normal"
       ))
     );
@@ -200,6 +216,35 @@ async function main(mode: Mode, op: OperationMode, ...globs: string[]) {
         "peer"
       ))
     );
+    changed.push(
+      ...(await updateMatchingPackages(
+        op === "update",
+        mode,
+        mappedGlobs,
+        pkg.optionalDependencies,
+        "^",
+        "optional"
+      ))
+    );
+
+    changed.push(
+      ...(await updateMatchingPackages(
+        op === "update",
+        mode,
+        mappedGlobs,
+        resolutions,
+        "",
+        "resolutions"
+      ))
+    );
+
+    if (Object.keys(resolutions).length > 0) {
+      pkg.resolutions = pkg.resolutions || {};
+      for (const key of Object.keys(resolutions)) {
+        pkg.resolutions["**/" + key] = resolutions[key];
+      }
+    }
+
     if (changed.length > 0) {
       someChanged = true;
       const changedSet = new Set(changed);
