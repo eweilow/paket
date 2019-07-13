@@ -1,6 +1,6 @@
 {
   "name": "@eweilow/paket-cli",
-  "version": "0.0.1-alpha.2",
+  "version": "0.0.1-alpha.3",
   "description": "A simple CLI for updating JS packages throughout an entire workspace",
   "main": "./",
   "sideEffects": false,
