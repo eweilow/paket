@@ -49,7 +49,7 @@ describe("CLI", () => {
       PAKET_REGISTRY: "http://localhost:1234"
     });
 
-    await start.start();
+    start.start();
     const out: string[] = [];
     const err: string[] = [];
     const msgs: string[] = [];
@@ -58,13 +58,11 @@ describe("CLI", () => {
         if (!m.includes("Using root folder")) {
           out.push(m);
         }
-        msgs.push(m);
       },
       m => {
         if (!m.includes("Using root folder")) {
           err.push(m);
         }
-        msgs.push(m);
       }
     );
 

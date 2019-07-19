@@ -4,7 +4,7 @@ import { join } from "path";
 export function wrapCommand<T extends { [key: string]: string }>(cmd: string, cwd: string, env: T) {
   let childProcess: ChildProcess;
 
-  async function start() {
+  function start() {
     const nodeExec = process.env.npm_node_execpath || process.execPath;
     childProcess = spawn(nodeExec, [join(__dirname, "../packages/cli/cli.js"), ...cmd.split(" ")], {
       cwd,
@@ -71,8 +71,14 @@ export function wrapCommand<T extends { [key: string]: string }>(cmd: string, cw
         throw new Error("childProcess is null!");
       }
 
-      currentOutFn = data => out(data.toString());
-      currentErrFn = data => err(data.toString());
+      currentOutFn = data => {
+        out(data.toString());
+        console.log(data.toString());
+      };
+      currentErrFn = data => {
+        err(data.toString());
+        console.error(data.toString());
+      };
       childProcess.stdout.on("data", currentOutFn);
       childProcess.stderr.on("data", currentErrFn);
     },
