@@ -14,7 +14,18 @@ describe("CLI", () => {
 
     const app = express();
     app.use(express.static(join(__dirname, "./version-mocks"), { index: "index.json" }));
-    server = app.listen(1234);
+
+    await new Promise((resolve, reject) => {
+      server = app.listen(1234, err => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+
+    server.on("error", err => console.error(err));
     server.unref();
   });
 
@@ -45,7 +56,6 @@ describe("CLI", () => {
       m => !m.includes("Using root folder") && out.push(m),
       m => !m.includes("Using root folder") && err.push(m)
     );
-    await start.wait("Using registry");
     await start.stopped();
 
     expect(stringifyAndSplit(out)).toMatchSnapshot("stdout");
