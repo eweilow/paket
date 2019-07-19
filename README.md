@@ -1,4 +1,4 @@
-[![npm (scoped)](https://img.shields.io/npm/v/@eweilow/paket-cli.svg)](https://www.npmjs.com/package/@eweilow/paket-cli)
+[![npm (scoped)](https://img.shields.io/npm/v/@eweilow/paket-cli.svg)](https://www.npmjs.com/package/@eweilow/paket-cli) [![Greenkeeper badge](https://badges.greenkeeper.io/eweilow/paket.svg)](https://greenkeeper.io/)
 
 # paket
 
