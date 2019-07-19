@@ -1,9 +1,7 @@
 language: node_js
 node_js: 12.6
-cache: yarn
 install:
   - npm i yarn@1.17.3 -g
-  - yarn config set cache-folder $HOME/.yarn-cache
   - yarn --frozen-lockfile --production=false
 
 before_script:
