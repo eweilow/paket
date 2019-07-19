@@ -52,11 +52,28 @@ describe("CLI", () => {
     await start.start();
     const out: string[] = [];
     const err: string[] = [];
+    const msgs: string[] = [];
     start.pipe(
-      m => !m.includes("Using root folder") && out.push(m),
-      m => !m.includes("Using root folder") && err.push(m)
+      m => {
+        if (!m.includes("Using root folder")) {
+          out.push(m);
+        }
+        msgs.push(m);
+      },
+      m => {
+        if (!m.includes("Using root folder")) {
+          err.push(m);
+        }
+        msgs.push(m);
+      }
     );
-    await start.stopped();
+
+    try {
+      await start.stopped();
+    } catch (err) {
+      msgs.forEach(() => console.err(out));
+      throw err;
+    }
 
     expect(stringifyAndSplit(out)).toMatchSnapshot("stdout");
     expect(stringifyAndSplit(err)).toMatchSnapshot("stderr");
