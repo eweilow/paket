@@ -71,7 +71,7 @@ describe("CLI", () => {
     try {
       await start.stopped();
     } catch (err) {
-      msgs.forEach(() => console.err(out));
+      msgs.forEach(() => console.error(out));
       throw err;
     }
 
