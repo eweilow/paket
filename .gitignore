@@ -71,3 +71,4 @@ typings/
 
 dist
 .vscode
+.jest

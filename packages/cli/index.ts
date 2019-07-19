@@ -9,15 +9,15 @@ import * as path from "path";
 type Mode = "any" | "latest";
 type OperationMode = "update" | "check";
 
+const registry = process.env.PAKET_REGISTRY || "https://registry.npmjs.org";
+
 const cache = new Map<string, any>();
 async function getLatest(packageName: string) {
   if (cache.has(packageName)) {
     return cache.get(packageName);
   }
 
-  const url = new URL(
-    `https://registry.npmjs.org/${encodeURIComponent(packageName)}`
-  ).href;
+  const url = new URL(`${registry}/${encodeURIComponent(packageName)}`).href;
 
   const res = await fetch(url);
   const json = await res.json();
@@ -29,11 +29,7 @@ function isPackageMatch(name: string, globs: minimatch.IMinimatch[]) {
   return globs.some(el => el.match(name));
 }
 
-function readMatchingPackages(
-  globs: minimatch.IMinimatch[],
-  deps: any,
-  fetchNames: Set<string>
-) {
+function readMatchingPackages(globs: minimatch.IMinimatch[], deps: any, fetchNames: Set<string>) {
   if (deps == null) {
     return;
   }
@@ -85,11 +81,10 @@ async function updateMatchingPackages(
       }
 
       if (oldVersion !== newVersion) {
-        // tslint:disable-next-line:no-console
         changed.push(
-          `${dep} (${chalk.magenta(type)}): ${chalk.yellow(
-            oldVersion
-          )} -> ${chalk.green(newVersion)}`
+          `${dep} (${chalk.magenta(type)}): ${chalk.yellow(oldVersion)} -> ${chalk.green(
+            newVersion
+          )}`
         );
 
         if (actuallyUpdate) {
@@ -104,6 +99,7 @@ async function updateMatchingPackages(
 async function main(mode: Mode, op: OperationMode, ...globs: string[]) {
   const cwd = process.cwd();
   console.log("Using root folder: %s", cwd);
+  console.log("Using registry '%s'", registry);
   let updatePrefix: string;
   switch (op) {
     case "check":
@@ -117,23 +113,17 @@ async function main(mode: Mode, op: OperationMode, ...globs: string[]) {
   }
   switch (mode) {
     case "any":
-      // tslint:disable-next-line:no-console
       console.log("\n%s packages matching globs:", updatePrefix);
       for (const g of globs) {
-        // tslint:disable-next-line:no-console
         console.log(` - ${chalk.yellow(g)}`);
       }
-      // tslint:disable-next-line:no-console
       console.log("to the last published version.\n");
       break;
     case "latest":
-      // tslint:disable-next-line:no-console
       console.log("\n%s packages matching globs:", updatePrefix);
       for (const g of globs) {
-        // tslint:disable-next-line:no-console
         console.log(` - ${chalk.yellow(g)}`);
       }
-      // tslint:disable-next-line:no-console
       console.log("to the latest version.\n");
       break;
     default:
@@ -180,8 +170,7 @@ async function main(mode: Mode, op: OperationMode, ...globs: string[]) {
     const resolutions = {};
     if (pkg.resolveModules) {
       for (const name of pkg.resolveModules) {
-        resolutions[name] =
-          pkg.resolutions != null ? pkg.resolutions["**/" + name] : "unset";
+        resolutions[name] = pkg.resolutions != null ? pkg.resolutions["**/" + name] : "unset";
       }
     }
 
@@ -248,10 +237,8 @@ async function main(mode: Mode, op: OperationMode, ...globs: string[]) {
     if (changed.length > 0) {
       someChanged = true;
       const changedSet = new Set(changed);
-      // tslint:disable-next-line:no-console
       console.log(`${chalk.cyan(pkg.name)}:`);
       for (const changedPkg of changedSet) {
-        // tslint:disable-next-line:no-console
         console.log("  " + changedPkg);
       }
     }
