@@ -8,23 +8,19 @@ import { wrapCommand } from "../../../test-utils/wrap";
 
 describe("CLI", () => {
   let server: Server;
-  beforeAll(() => {
-    const app = express();
-    app.use(express.static(join(__dirname, "./version-mocks"), { index: "index.json" }));
-    server = app.listen(1234);
-  });
-
-  afterAll(cb => {
-    server.close(cb);
-  });
-
   let tmpDir: DirectoryResult;
   beforeEach(async () => {
     tmpDir = await dir({ unsafeCleanup: true });
+
+    const app = express();
+    app.use(express.static(join(__dirname, "./version-mocks"), { index: "index.json" }));
+    server = app.listen(1234);
+    server.unref();
   });
 
   afterEach(async () => {
-    tmpDir.cleanup();
+    await tmpDir.cleanup();
+    await new Promise((resolve, reject) => server.close(err => (err ? reject(err) : resolve())));
   });
 
   function stringifyAndSplit(data: string[], ...filters: string[]) {
