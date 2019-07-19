@@ -1,4 +1,5 @@
 import { ChildProcess, spawn } from "child_process";
+import { join } from "path";
 
 export function wrapCommand<T extends { [key: string]: string }>(cmd: string, cwd: string, env: T) {
   let childProcess: ChildProcess;
@@ -7,7 +8,12 @@ export function wrapCommand<T extends { [key: string]: string }>(cmd: string, cw
     const nodeExec = process.env.npm_node_execpath || process.execPath;
     childProcess = spawn(
       nodeExec,
-      [require.resolve("@eweilow/paket-cli/cli.js"), ...cmd.split(" ")],
+      [
+        require.resolve("@eweilow/paket-cli/cli.js", {
+          paths: [join(__dirname, "../packages/cli")]
+        }),
+        ...cmd.split(" ")
+      ],
       {
         cwd,
         env
