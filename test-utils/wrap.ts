@@ -6,19 +6,10 @@ export function wrapCommand<T extends { [key: string]: string }>(cmd: string, cw
 
   async function start() {
     const nodeExec = process.env.npm_node_execpath || process.execPath;
-    childProcess = spawn(
-      nodeExec,
-      [
-        require.resolve("@eweilow/paket-cli/cli.js", {
-          paths: [join(__dirname, "../packages/cli")]
-        }),
-        ...cmd.split(" ")
-      ],
-      {
-        cwd,
-        env
-      }
-    );
+    childProcess = spawn(nodeExec, [join(__dirname, "../packages/cli/cli.js"), ...cmd.split(" ")], {
+      cwd,
+      env
+    });
   }
 
   function stopped() {
