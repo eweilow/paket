@@ -1,36 +1,39 @@
 import { ChildProcess, spawn } from "child_process";
+import { join } from "path";
 
 export function wrapCommand<T extends { [key: string]: string }>(cmd: string, cwd: string, env: T) {
   let childProcess: ChildProcess;
 
-  async function start() {
+  function start() {
     const nodeExec = process.env.npm_node_execpath || process.execPath;
-    childProcess = spawn(
-      nodeExec,
-      [require.resolve("@eweilow/paket-cli/cli.js"), ...cmd.split(" ")],
-      {
-        cwd,
-        env
-      }
-    );
+    childProcess = spawn(nodeExec, [join(__dirname, "../packages/cli/cli.js"), ...cmd.split(" ")], {
+      cwd,
+      env
+    });
   }
 
   function stopped() {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       if (childProcess == null) {
         resolve();
       }
+      childProcess.on("error", err => reject(err));
 
-      childProcess.on("exit", () => {
+      childProcess.on("exit", code => {
         childProcess = null;
-        resolve();
+
+        if (code === 0) {
+          resolve();
+        } else {
+          reject(new Error("Child exited with code " + (code || "null")));
+        }
       });
     });
   }
 
   async function stop() {
     if (childProcess == null) {
-      return;
+      throw new Error("childProcess is null!");
     }
     const onStopped = stopped();
     childProcess.kill();
@@ -68,8 +71,14 @@ export function wrapCommand<T extends { [key: string]: string }>(cmd: string, cw
         throw new Error("childProcess is null!");
       }
 
-      currentOutFn = data => out(data.toString());
-      currentErrFn = data => err(data.toString());
+      currentOutFn = data => {
+        out(data.toString());
+        console.log(data.toString());
+      };
+      currentErrFn = data => {
+        err(data.toString());
+        console.error(data.toString());
+      };
       childProcess.stdout.on("data", currentOutFn);
       childProcess.stderr.on("data", currentErrFn);
     },

@@ -8,23 +8,30 @@ import { wrapCommand } from "../../../test-utils/wrap";
 
 describe("CLI", () => {
   let server: Server;
-  beforeAll(() => {
-    const app = express();
-    app.use(express.static(join(__dirname, "./version-mocks"), { index: "index.json" }));
-    server = app.listen(1234);
-  });
-
-  afterAll(cb => {
-    server.close(cb);
-  });
-
   let tmpDir: DirectoryResult;
   beforeEach(async () => {
     tmpDir = await dir({ unsafeCleanup: true });
+
+    const app = express();
+    app.use(express.static(join(__dirname, "./version-mocks"), { index: "index.json" }));
+
+    await new Promise((resolve, reject) => {
+      server = app.listen(1234, err => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+
+    server.on("error", err => console.error(err));
+    server.unref();
   });
 
   afterEach(async () => {
-    tmpDir.cleanup();
+    await tmpDir.cleanup();
+    await new Promise((resolve, reject) => server.close(err => (err ? reject(err) : resolve())));
   });
 
   function stringifyAndSplit(data: string[], ...filters: string[]) {
@@ -42,15 +49,29 @@ describe("CLI", () => {
       PAKET_REGISTRY: "http://localhost:1234"
     });
 
-    await start.start();
+    start.start();
     const out: string[] = [];
     const err: string[] = [];
+    const msgs: string[] = [];
     start.pipe(
-      m => !m.includes("Using root folder") && out.push(m),
-      m => !m.includes("Using root folder") && err.push(m)
+      m => {
+        if (!m.includes("Using root folder")) {
+          out.push(m);
+        }
+      },
+      m => {
+        if (!m.includes("Using root folder")) {
+          err.push(m);
+        }
+      }
     );
-    await start.wait("Using registry");
-    await start.stopped();
+
+    try {
+      await start.stopped();
+    } catch (err) {
+      msgs.forEach(() => console.error(out));
+      throw err;
+    }
 
     expect(stringifyAndSplit(out)).toMatchSnapshot("stdout");
     expect(stringifyAndSplit(err)).toMatchSnapshot("stderr");

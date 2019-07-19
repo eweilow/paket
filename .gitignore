@@ -72,4 +72,6 @@ typings/
 dist
 .vscode
 .jest
-!jest.config.js
+
+!jest\.config\.js
+!packages/cli/cli\.js
