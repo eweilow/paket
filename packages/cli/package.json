@@ -1,6 +1,6 @@
 {
   "name": "@eweilow/paket-cli",
-  "version": "0.0.1-alpha.3",
+  "version": "0.0.1-alpha.4",
   "description": "A simple CLI for updating JS packages throughout an entire workspace",
   "main": "./",
   "sideEffects": false,
@@ -35,8 +35,8 @@
     "@types/minimatch": "^3.0.3",
     "@types/node": "12.6.8",
     "@types/node-fetch": "2.3.7",
-    "tmp-promise": "2.0.2",
-    "tmp": "0.1.0"
+    "tmp": "0.1.0",
+    "tmp-promise": "2.0.2"
   },
   "gitHead": "b7dc79987a794604c8538d3b9e9f2d17f8ab66da",
   "keywords": [
