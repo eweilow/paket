@@ -1,0 +1,49 @@
+{
+  "extends": [
+    ":combinePatchMinorReleases",
+    ":ignoreUnstable",
+    ":renovatePrefix",
+    ":updateNotScheduled",
+    ":automergeDisabled",
+    ":maintainLockFilesDisabled",
+    ":autodetectPinVersions",
+    ":prConcurrentLimit20"
+  ],
+  "statusCheckVerify": true,
+  "docker": false,
+  "rangeStrategy": "bump",
+  "labels": ["renovate"],
+  "postUpdateOptions": ["yarnDedupeHighest"],
+  "packageRules": [
+    {
+      "packagePatterns": ["*"],
+      "excludePackageNames": ["ts-node", "typescript"],
+      "excludePackagePatterns": ["^@types/"],
+      "updateTypes": ["minor", "patch"],
+      "groupName": "all non-major dependencies"
+    },
+    {
+      "packagePatterns": ["^@types/"],
+      "groupName": "type packages"
+    },
+    {
+      "packageNames": ["ts-node", "typescript"],
+      "groupName": "typescript packages"
+    }
+  ],
+  "separateMajorMinor": true,
+  "separateMultipleMajor": true,
+  "lazyGrouping": true,
+  "prCreation": "immediate",
+  "prHourlyLimit": 0,
+  "prNotPendingHours": 1,
+  "assignees": ["eweilow"],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/vendor/**",
+    "**/__tests__/**",
+    "**/test/**",
+    "**/tests/**"
+  ]
+}
