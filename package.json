@@ -8,7 +8,7 @@
     "publish-prerelease": "lerna publish prerelease --dist-tag latest",
     "check-style": "prettier -c **/*.{ts,tsx}",
     "check-lint": "tslint -c tslint.json --project tsconfig.base.json",
-    "check-unit": "jest --detectOpenHandles --forceExit",
+    "check-unit": "jest --detectOpenHandles --forceExit --runInBand",
     "test": "yarn check-style && yarn check-lint && yarn check-unit"
   },
   "repository": {
