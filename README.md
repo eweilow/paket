@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.com/eweilow/paket.svg?branch=master)](https://travis-ci.com/eweilow/paket) [![npm (scoped)](https://img.shields.io/npm/v/@eweilow/paket-cli.svg)](https://www.npmjs.com/package/@eweilow/paket-cli) [![Greenkeeper badge](https://badges.greenkeeper.io/eweilow/paket.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.com/eweilow/paket.svg?branch=master)](https://travis-ci.com/eweilow/paket)
+[![npm (scoped)](https://img.shields.io/npm/v/@eweilow/paket-cli.svg)](https://www.npmjs.com/package/@eweilow/paket-cli)
+[![Renovate badge](https://badges.renovateapi.com/github/eweilow/paket)](https://renovatebot.com/)
 
 # paket
 
