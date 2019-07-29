@@ -39,7 +39,7 @@
     "jest": "24.8.0",
     "@eweilow/ts-jest-fork": "24.0.1-test",
     "babel-jest": "24.8.0",
-    "typescript": "^3.5.2",
+    "typescript": "^3.5.3",
     "tslint-config-prettier": "1.18.0",
     "express": "4.17.1"
   }
