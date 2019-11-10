@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/eweilow/paket",
   "dependencies": {
-    "chalk": "2.4.2",
+    "chalk": "3.0.0",
     "detect-newline": "3.0.0",
     "glob": "7.1.4",
     "minimatch": "3.0.4",
