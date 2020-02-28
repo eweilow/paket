@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import detectNewline from "detect-newline";
-import { readFileSync, writeFileSync } from "fs";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import * as glob from "glob";
 import * as minimatch from "minimatch";
 import fetch from "node-fetch";
@@ -129,16 +129,27 @@ async function main(mode: Mode, op: OperationMode, ...globs: string[]) {
     default:
       throw new Error("Unknown mode: " + mode);
   }
+
+  let ignorePaths: string[] = [
+    "old/**",
+    "OLD_DO_NOT_USE/**",
+    "update-excitare/**",
+    "node_modules/**",
+    "**/node_modules/**",
+    ".git/**"
+  ];
+
+  const ignorePath = path.join(cwd, "./.paketignore");
+  if (existsSync(ignorePath)) {
+    ignorePaths = readFileSync(ignorePath, "utf-8")
+      .split("\n")
+      .map(el => el.trim());
+  }
+  console.log("Using ignore paths:\n%s", ignorePaths.map(el => ` - '${el}'`).join("\n"));
+
   const files = glob
     .sync("**/package.json", {
-      ignore: [
-        "old/**",
-        "OLD_DO_NOT_USE/**",
-        "update-excitare/**",
-        "node_modules/**",
-        "**/node_modules/**",
-        ".git/**"
-      ],
+      ignore: ignorePaths,
       cwd
     })
     .map(name => path.join(cwd, name));
