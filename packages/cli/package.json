@@ -33,7 +33,7 @@
     "@types/detect-newline": "^3.0.2",
     "@types/glob": "7.1.1",
     "@types/minimatch": "^3.0.3",
-    "@types/node": "12.7.1",
+    "@types/node": "13.13.15",
     "@types/node-fetch": "2.5.0",
     "tmp": "0.1.0",
     "tmp-promise": "2.0.2"
