@@ -36,7 +36,7 @@
     "@types/node": "12.7.1",
     "@types/node-fetch": "2.5.0",
     "tmp": "0.1.0",
-    "tmp-promise": "2.0.2"
+    "tmp-promise": "3.0.3"
   },
   "gitHead": "b7dc79987a794604c8538d3b9e9f2d17f8ab66da",
   "keywords": [
