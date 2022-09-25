@@ -25,7 +25,7 @@
     "detect-newline": "3.0.0",
     "glob": "7.1.4",
     "minimatch": "3.0.4",
-    "node-fetch": "2.6.0",
+    "node-fetch": "2.6.7",
     "source-map-support": "0.5.13"
   },
   "devDependencies": {
