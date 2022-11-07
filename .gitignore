@@ -70,8 +70,5 @@ typings/
 
 
 dist
-.vscode
-.jest
 
-!jest\.config\.js
-!packages/cli/cli\.js
+tsconfig.tsbuildinfo

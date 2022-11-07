@@ -6,7 +6,8 @@
     "paket": "./dist/cli.js"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc --incremental",
+    "test": "pnpm build && node dist/cli.js"
   },
   "repository": {
     "type": "git",
@@ -18,8 +19,16 @@
     "url": "https://github.com/eweilow/paket/issues"
   },
   "homepage": "https://github.com/eweilow/paket",
-  "dependencies": {},
+  "dependencies": {
+    "glob": "^8.0.3",
+    "js-yaml": "^4.1.0",
+    "minimatch": "^5.1.0"
+  },
   "devDependencies": {
+    "@types/glob": "^8.0.0",
+    "@types/js-yaml": "^4.0.5",
+    "@types/minimatch": "^5.1.2",
+    "@types/node": "^18.11.9",
     "typescript": "^4.8.4"
   }
 }
