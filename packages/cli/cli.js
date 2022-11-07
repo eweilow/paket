@@ -1,7 +1,0 @@
-#!/usr/bin/env node
-
-"use strict";
-
-require("source-map-support").install();
-
-require("./dist");
